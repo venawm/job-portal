@@ -1,4 +1,6 @@
 import express, { Application } from 'express'
+import 'dotenv/config'
+import appRoutes from './globals/routes/appRoutes'
 
 class Server {
   private app: Application
@@ -7,14 +9,25 @@ class Server {
     this.app = express()
   }
 
-  private setupMiddleware(): void {}
+  public start(): void {
+    this.setupMiddleware()
+    this.setupRoutes()
+    this.setupGlobalError()
+    this.listenServer()
+  }
 
-  private setupRoutes(): void {}
+  private setupMiddleware(): void {
+    this.app.use(express.json())
+  }
+
+  private setupRoutes(): void {
+    appRoutes(this.app)
+  }
 
   private setupGlobalError(): void {}
 
-  public listenServer() {
-    const port = 5000
+  private listenServer() {
+    const port = process.env.PORT || 5000
 
     this.app.listen(port, () => {
       console.log(`Connected to server with port ${port}`)
