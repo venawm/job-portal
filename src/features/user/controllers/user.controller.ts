@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import prisma from '~/prisma'
 
 class UserController {
   public getAll(req: Request, res: Response, next: NextFunction) {
